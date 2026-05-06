@@ -46,6 +46,7 @@ export class AnimalsController {
     status: 200,
     description: 'Lista paginada: { data, total, page, limit }',
   })
+  @ApiResponse({ status: 400, description: 'Parámetros de query inválidos' })
   @Get()
   findAll(@Query() query: QueryAnimalsDto) {
     return this.animalsService.findAll(query);

@@ -38,6 +38,7 @@ export class AdoptionRequestsController {
 
   @ApiOperation({ summary: 'Listar todas las solicitudes' })
   @ApiResponse({ status: 200, description: 'Array de solicitudes con user y animal' })
+  @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   @Get()
   findAll() {
     return this.adoptionRequestsService.findAll();
@@ -71,6 +72,8 @@ export class AdoptionRequestsController {
 
   @ApiOperation({ summary: 'Eliminar una solicitud' })
   @ApiParam({ name: 'id', type: String })
+  @ApiResponse({ status: 200, description: 'Solicitud eliminada' })
+  @ApiResponse({ status: 404, description: 'Solicitud no encontrada' })
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.adoptionRequestsService.remove(id);

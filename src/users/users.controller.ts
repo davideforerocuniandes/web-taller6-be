@@ -28,6 +28,7 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Listar todos los usuarios' })
   @ApiResponse({ status: 200, description: 'Array de usuarios' })
+  @ApiResponse({ status: 500, description: 'Error interno del servidor' })
   @Get()
   findAll() {
     return this.usersService.findAll();
@@ -44,6 +45,8 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Actualizar datos del usuario' })
   @ApiParam({ name: 'id', type: String })
+  @ApiResponse({ status: 200, description: 'Usuario actualizado' })
+  @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   @Patch(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -54,6 +57,8 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Eliminar usuario' })
   @ApiParam({ name: 'id', type: String })
+  @ApiResponse({ status: 200, description: 'Usuario eliminado' })
+  @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.remove(id);
@@ -62,6 +67,8 @@ export class UsersController {
   @ApiOperation({ summary: 'Agregar un animal a la lista de favoritos del usuario' })
   @ApiParam({ name: 'id', type: String, description: 'UUID del usuario' })
   @ApiParam({ name: 'animalId', type: String, description: 'UUID del animal' })
+  @ApiResponse({ status: 201, description: 'Animal agregado a favoritos' })
+  @ApiResponse({ status: 404, description: 'Usuario o animal no encontrado' })
   @Post(':id/favorites/:animalId')
   addFavorite(
     @Param('id', ParseUUIDPipe) userId: string,
@@ -72,6 +79,8 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Listar los favoritos de un usuario' })
   @ApiParam({ name: 'id', type: String })
+  @ApiResponse({ status: 200, description: 'Array de animales favoritos del usuario' })
+  @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   @Get(':id/favorites')
   getFavorites(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.getFavorites(id);
@@ -80,6 +89,8 @@ export class UsersController {
   @ApiOperation({ summary: 'Quitar un animal de favoritos' })
   @ApiParam({ name: 'id', type: String })
   @ApiParam({ name: 'animalId', type: String })
+  @ApiResponse({ status: 200, description: 'Animal removido de favoritos' })
+  @ApiResponse({ status: 404, description: 'Usuario o animal no encontrado' })
   @Delete(':id/favorites/:animalId')
   removeFavorite(
     @Param('id', ParseUUIDPipe) userId: string,
